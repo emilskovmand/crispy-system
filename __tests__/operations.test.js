@@ -16,5 +16,6 @@ describe('Addition Test', () => {
         expect(response.statusCode).toEqual(200)
         expect(response.body).toHaveProperty('result')
         expect(response.body.result).toEqual(randomNum1 + randomNum2)
+        console.log(response.body.result)
     })
 })

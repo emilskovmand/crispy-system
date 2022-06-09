@@ -10,13 +10,11 @@ router.get("/", function (req, res, next) {
 
 router.post("/operations/:_operation", function (req, res, next) {
     var operation = req.params._operation
-    res.json({ message: "Fedt" }).status(200);
-    console.log(req.body)
     var num1 = req.body.num1
     var num2 = req.body.num2
 
 
-    /*switch(operation) {
+    switch(operation) {
         case "addition":
             res.json({ result: operations.addition(num1, num2) }).status(200);
             break;
@@ -31,7 +29,7 @@ router.post("/operations/:_operation", function (req, res, next) {
             break;
         default:
             res.json({ error: "Invalid operation" }).status(400);
-    }*/
+    }
 
 });
 
