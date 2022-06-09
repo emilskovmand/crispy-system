@@ -3,6 +3,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 
 var indexRouter = require("./routes/index");
+const port = process.env.PORT || 3001;
 
 var app = express();
 
@@ -22,5 +23,8 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render("error");
 });
+
+// Lyt til port 3001 ELLLER den dynamiske port fra hosten
+app.listen(port, () => console.log(`Listening on port ${port}`));
 
 module.exports = app;
