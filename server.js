@@ -7,11 +7,8 @@ const port = process.env.PORT || 3001;
 
 var app = express();
 
-var indexRouter = require("./routes/index");
-app.use("/index", indexRouter);
+app.use(express.json()); // parses header requests (req.body)
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {});
 app.set("json spaces", 2); // sets JSON spaces for clarity
 require("dotenv/config");
 app.use(cookieParser(process.env.SECRET));
@@ -29,16 +26,8 @@ app.get("/", (req, res) => {
     res.json({ message: "We did it" }).status(200);
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get("env") === "development" ? err : {};
-
-    // render the error page
-    res.status(500);
-    res.json({ message: "Something went wrong." });
-});
+var indexRouter = require("./routes/index");
+app.use("/index", indexRouter);
 
 // Lyt til port 3001 ELLLER den dynamiske port fra hosten
 app.listen(port, () => console.log(`Listening on port ${port}`));
