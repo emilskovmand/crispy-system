@@ -1,6 +1,7 @@
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
+var mongoose = require("mongoose");
 
 const port = process.env.PORT || 3001;
 
@@ -14,6 +15,15 @@ app.use(function (req, res, next) {});
 app.set("json spaces", 2); // sets JSON spaces for clarity
 require("dotenv/config");
 app.use(cookieParser(process.env.SECRET));
+
+// Forbind til MongoDB
+mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
+    if (err) {
+        throw err;
+    } else {
+        console.log("Connected to MongoDB!");
+    }
+});
 
 // error handler
 app.use(function (err, req, res, next) {
