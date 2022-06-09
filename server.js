@@ -25,6 +25,10 @@ mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useU
     }
 });
 
+app.get("/", (req, res) => {
+    res.json({ message: "We did it" }).status(200);
+});
+
 // error handler
 app.use(function (err, req, res, next) {
     // set locals, only providing error in development

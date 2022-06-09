@@ -6,4 +6,9 @@ router.get("/", function (req, res, next) {
     res.json({ message: "Fedt" }).status(200);
 });
 
+/* GET home page. */
+router.get("/test", function (req, res, next) {
+    res.json({ message: "Fedt" }).status(200);
+});
+
 module.exports = router;
