@@ -2,10 +2,12 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 
-var indexRouter = require("./routes/index");
 const port = process.env.PORT || 3001;
 
 var app = express();
+
+var indexRouter = require("./routes/index");
+app.use("/index", indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {});
