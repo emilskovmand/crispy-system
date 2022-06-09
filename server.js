@@ -23,7 +23,7 @@ app.use(function (err, req, res, next) {
 
     // render the error page
     res.status(err.status || 500);
-    res.render("error");
+    res.json("something went wrong");
 });
 
 // Lyt til port 3001 ELLLER den dynamiske port fra hosten
