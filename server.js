@@ -11,6 +11,9 @@ app.use("/index", indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {});
+app.use(bodyParser.json()); // parses header requests (req.body)
+app.use(bodyParser.urlencoded({ extended: true })); // allows objects and arrays to be URL-encoded
+
 app.set("json spaces", 2); // sets JSON spaces for clarity
 require("dotenv/config");
 app.use(cookieParser(process.env.SECRET));
