@@ -7,8 +7,7 @@ const port = process.env.PORT || 3001;
 
 var app = express();
 
-var indexRouter = require("./routes/index");
-app.use("/index", indexRouter);
+app.use(express.json()); // parses header requests (req.body)
 
 var userRouter = require("./routes/user");
 app.use("/user", userRouter)
@@ -28,16 +27,12 @@ mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useU
     }
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get("env") === "development" ? err : {};
-
-    // render the error page
-    res.status(500);
-    res.json({ message: "Something went wrong." });
+app.get("/", (req, res) => {
+    res.json({ message: "We did it" }).status(200);
 });
+
+var indexRouter = require("./routes/index");
+app.use("/index", indexRouter);
 
 // Lyt til port 3001 ELLLER den dynamiske port fra hosten
 app.listen(port, () => console.log(`Listening on port ${port}`));
