@@ -28,9 +28,8 @@ module.exports = function (passport) {
             if (user) {
                 const userInformation = {
                     _id: user._id,
-                    username: user.username ? user.username : null,
-                    permissions: user.permissions,
-                    email: user.email,
+                    name: user.Name,
+                    email: user.Email,
                 };
                 cb(err, userInformation);
             } else {

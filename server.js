@@ -10,6 +10,9 @@ var app = express();
 var indexRouter = require("./routes/index");
 app.use("/index", indexRouter);
 
+var userRouter = require("./routes/user");
+app.use("/user", userRouter)
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {});
 app.set("json spaces", 2); // sets JSON spaces for clarity
