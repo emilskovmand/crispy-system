@@ -1,14 +1,14 @@
-const userModel = require("./models/user");
+const userModel = require("./models/User");
 const bcrypt = require("bcryptjs");
 const localStrategy = require("passport-local").Strategy;
 
 module.exports = function (passport) {
     passport.use(
-        new localStrategy((username, password, done) => {
-            userModel.findOne({ $or: [{ username: username }, { email: username }] }, (err, user) => {
+        new localStrategy((Username, Password, done) => {
+            userModel.findOne({ $or: [{ Name: Username }, { email: Username }] }, (err, user) => {
                 if (err) return done(err, false);
                 if (!user) return done(null, false);
-                bcrypt.compare(password, user.password, (err, result) => {
+                bcrypt.compare(Password, user.Password, (err, result) => {
                     if (err) return done(err, false);
                     if (result === true) {
                         return done(null, user);

@@ -5,13 +5,18 @@ var addUser = require('../route_methods/userMethods/addUser')
 var updateUser = require('../route_methods/userMethods/updateUser')
 var disableUser = require('../route_methods/userMethods/disableUser')
 var enableUser = require('../route_methods/userMethods/enableUser')
+var passport = require('passport')
+var userModel = require('../models/User')
 
 /* GET user page. */
+
+// ROUTE: /user/list
 router.get("/list", async (req, res) => {
     var listResults = await listUsers()
     res.json(listResults).status(200);
 });
 
+// ROUTE: /user/add
 router.post("/add", async (req, res) => {
     var addResult = await addUser(req.body.Name, req.body.Email, req.body.Password)
     if (addResult) {
@@ -21,6 +26,7 @@ router.post("/add", async (req, res) => {
     }
 }); 
 
+// ROUTE: /user/update/%USERID%
 router.put("/update/:_userId", async (req, res) => {
     var updateResult = await updateUser(req.params._userId, req.body.Name, req.body.Email, req.body.Password)
     if (updateResult) {
@@ -30,6 +36,7 @@ router.put("/update/:_userId", async (req, res) => {
     }
 });
 
+// ROUTE: /user/disable/%USERID%
 router.post("/disable/:_userId", async (req, res) => {
     var disableResult = await disableUser(req.params._userId)
     if (disableResult) {
@@ -39,6 +46,7 @@ router.post("/disable/:_userId", async (req, res) => {
     }
 });
 
+// ROUTE: /user/enable/%USERID%
 router.post("/enable/:_userId", async (req, res) => {
     var enableResult = await enableUser(req.params._userId)
     if (enableResult) {
@@ -47,5 +55,41 @@ router.post("/enable/:_userId", async (req, res) => {
         res.json({message: "Something went wrong or user is already enabled"}).status(200);        
     }
 });
+
+// ROUTE: /user/login
+router.post('/login', async (req, res, next) => {
+    passport.authenticate("local", { session: true }, (err, user, info) => {
+        if (err) {
+            res.status(500);
+            res.json("Something went wrong")
+            console.error(err);
+        }
+        if (!user) {
+            res.json({message: "No user exists", success: false}).status(200);
+        }
+        else {
+            req.logIn(user, err => {
+                if (err) {
+                    res.status(500);
+                    res.json("Something went wrong.");
+                    console.error(err);
+                }
+                res.json({message: "Logged in with success", success: true}).status(200);
+            }) 
+        }
+    })(req, res, next)
+})
+
+// ROUTE: /user/logout
+router.get('/logout', async (req, res, next) => {
+    if (req.user) {
+        req.logOut();
+        res.send("Logged out");
+        res.status(200);
+    } else {
+        res.send("Not logged in.");
+        res.status(200);
+    }
+})
 
 module.exports = router;

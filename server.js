@@ -2,6 +2,8 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var mongoose = require("mongoose");
+var passport = require("passport")
+const passportLocal = require("passport-local").Strategy;
 
 const port = process.env.PORT || 3001;
 
@@ -17,6 +19,9 @@ app.use(function (req, res, next) {});
 app.set("json spaces", 2); // sets JSON spaces for clarity
 require("dotenv/config");
 app.use(cookieParser(process.env.SECRET));
+app.use(passport.initialize());
+app.use(passport.session());
+require("./passportConfig")(passport);
 
 // Forbind til MongoDB
 mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
