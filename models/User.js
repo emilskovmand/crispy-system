@@ -19,6 +19,11 @@ const UserSchema = mongoose.Schema({
             return new Date()
         }
     },
+    Disabled: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 })
 
 module.exports = mongoose.model("User", UserSchema, "User")

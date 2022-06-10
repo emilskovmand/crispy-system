@@ -1,21 +1,21 @@
 var userModel = require("../../models/User")
 var bcrypt = require("bcryptjs")
+const e = require("express")
 
 async function AddUser(Name, Email, nonHashedPassword) {
-    var user = new userModel({
-        Name: Name,
-        Email: Email,
-        Password: bcrypt.hash(nonHashedPassword, process.env.SALT)
-    })
-
-    user.save()
-        .then(data => {
-            return true
+    if (!await userModel.exists({Email: Email})) {
+        var user = new userModel({
+            Name: Name,
+            Email: Email,
+            Password: await bcrypt.hash(nonHashedPassword, 10)
         })
-        .catch(err => {
-            console.error(err);
-            return false
-        })
+    
+        const result = await user.save()
+    
+        return result
+    } else {
+        return false
+    }
 }
 
 module.exports = AddUser

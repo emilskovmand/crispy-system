@@ -1,14 +1,14 @@
 var userModel = require("../../models/User")
 
-async function disableUser(id) {
+async function enableUser(id) {
     const result = await userModel.findOneAndUpdate({
         _id: id,
-        Disabled: false
+        Disabled: true
     }, {
-        Disabled: true,
+        Disabled: false,
     })
 
     return result
 }
 
-module.exports = disableUser
+module.exports = enableUser
