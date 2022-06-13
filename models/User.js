@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+var mongoose = require("mongoose")
 
 const UserSchema = mongoose.Schema({
     Name: {
@@ -10,6 +10,7 @@ const UserSchema = mongoose.Schema({
     },
     Password: {
         type: String,
+        required: true,
     },
     CreatedTimestamp: {
         type: Date,
@@ -18,6 +19,11 @@ const UserSchema = mongoose.Schema({
             return new Date()
         }
     },
+    Disabled: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 })
 
-export default mongoose.model("User", UserSchema, "User")
+module.exports = mongoose.model("User", UserSchema, "User")
