@@ -40,9 +40,9 @@ router.put("/update/:_userId", async (req, res) => {
 router.post("/disable/:_userId", async (req, res) => {
     var disableResult = await disableUser(req.params._userId);
     if (disableResult) {
-        res.json({ message: "User disabled" }).status(200);
+        res.json({ message: "User disabled", success: true }).status(200);
     } else {
-        res.json({ message: "Something went wrong or user is already disabled" }).status(200);
+        res.json({ message: "Something went wrong or user is already disabled", success: false }).status(200);
     }
 });
 
@@ -50,9 +50,9 @@ router.post("/disable/:_userId", async (req, res) => {
 router.post("/enable/:_userId", async (req, res) => {
     var enableResult = await enableUser(req.params._userId);
     if (enableResult) {
-        res.json({ message: "User enabled" }).status(200);
+        res.json({ message: "User enabled", success: true }).status(200);
     } else {
-        res.json({ message: "Something went wrong or user is already enabled" }).status(200);
+        res.json({ message: "Something went wrong or user is already enabled", success: false }).status(200);
     }
 });
 
