@@ -16,6 +16,11 @@ router.get("/list", async (req, res) => {
     res.json(listResults).status(200);
 });
 
+// ROUTE: /user/getUser
+router.get("/getUser", async (req, res) => {
+    res.json(req.user).status(200);
+});
+
 // ROUTE: /user/add
 router.post("/add", async (req, res) => {
     var addResult = await addUser(req.body.Name, req.body.Email, req.body.Password);
