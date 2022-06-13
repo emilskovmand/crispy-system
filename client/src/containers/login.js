@@ -3,14 +3,20 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 
 export default function Login() {
+
+    user = {
+        userName: "",
+        password: ""
+    }
+
     return (
         <>
-            <Grid container spacing={2} justifyContent="center" direction="column">
+            <Grid container spacing={2} alignItems="center" justifyContent="center" direction="column">
                 <Grid item xs={6}>
-                    <TextField id="outlined-basic" label="User Name" variant="outlined" />
+                    <TextField value={this.user.userName} variant="outlined" />
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField id="outlined-basic" label="Password" variant="outlined" />
+                    <TextField value={this.user.password} variant="outlined" />
                 </Grid>
             </Grid>
         </>
