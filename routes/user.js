@@ -88,10 +88,10 @@ router.get("/logout", async (req, res, next) => {
                 return next(err);
             }
         });
-        res.send("Logged out");
+        res.send({ message: "Logged out.", success: true });
         res.status(200);
     } else {
-        res.send("Not logged in.");
+        res.send({ message: "Not logged in.", success: false });
         res.status(200);
     }
 });
