@@ -1,10 +1,13 @@
 import React, { useState, useContext } from "react";
 
 export const AuthContext = React.createContext({
-    Name: null,
-    Email: null,
-    loggedIn: false,
-    setAuth: () => {},
+    Auth: {
+        Name: null,
+        Email: null,
+        loggedIn: false,
+    },
+    loginAuth: null,
+    logoutAuth: null,
 });
 
 export const useAuthContext = () => {
@@ -23,7 +26,7 @@ export function AuthProvider({ children }) {
     };
 
     const setAuth = (AuthObject) => {
-        setAuth(AuthObject);
+        setAuthobject(AuthObject);
     };
 
     const logoutAuth = () => {
