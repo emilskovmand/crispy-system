@@ -2,8 +2,11 @@ import { React, useState } from "react";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useAuthContext } from '../hooks/useProvideAuth'
 
 export default function Login() {
+
+    const { loginAuth } = useAuthContext()
 
     const [state, setState] = useState({
         userName: '',
