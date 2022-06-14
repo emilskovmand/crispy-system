@@ -1,21 +1,26 @@
 import React, { useState, useContext } from "react";
 
-export const AuthContext = React.createContext({
-    Auth: {
+const authContext = React.createContext();
+
+export const useAuth = () => {
+    return useContext(authContext);
+};
+
+export function ProvideAuth({children}) {
+    const auth = useProvideAuth();
+    return (
+        <>
+            <authContext.Provider value={auth}>{children}</authContext.Provider>
+        </>
+    );
+}
+
+export function useProvideAuth() {
+    const [Auth, setAuthobject] = useState({
         Name: null,
         Email: null,
         loggedIn: false,
-    },
-    loginAuth: null,
-    logoutAuth: null,
-});
-
-export const useAuthContext = () => {
-    return useContext(AuthContext);
-};
-
-export function AuthProvider({ children }) {
-    const [Auth, setAuthobject] = useState(null);
+    });
 
     const loginAuth = (Name, Email) => {
         setAuth({
@@ -37,15 +42,9 @@ export function AuthProvider({ children }) {
         });
     };
 
-    const contextValue = {
-        Auth: Auth,
-        loginAuth: loginAuth,
-        logoutAuth: logoutAuth,
-    };
-
-    return (
-        <>
-            <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-        </>
-    );
+    return {
+        Auth,
+        loginAuth,
+        logoutAuth
+    }
 }
