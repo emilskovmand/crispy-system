@@ -38,6 +38,9 @@ app.use("/index", indexRouter);
 var userRouter = require("./routes/user");
 app.use("/user", userRouter);
 
+var translationRouter = require("./routes/translation");
+app.use("/translation", translationRouter);
+
 // Forbind til MongoDB
 mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
     if (err) {

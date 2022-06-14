@@ -8,8 +8,6 @@ var enableUser = require("../route_methods/userMethods/enableUser");
 var passport = require("passport");
 var userModel = require("../models/User");
 
-/* GET user page. */
-
 // ROUTE: /user/list
 router.get("/list", async (req, res) => {
     var listResults = await listUsers();
