@@ -24,7 +24,7 @@ export default function Login() {
     // this should probably be in some state managnemt file...
     function login() {
         // call api login with login details
-        axios.post("/api/user/login", {
+        axios.post("/user/login", {
             username: state.userName,
             password: state.password
         }).then(response => {
@@ -52,7 +52,7 @@ export default function Login() {
                         value={state.password}
                         name="password"
                         label="Password"
-                        type="text"
+                        type="password"
                         variant="outlined"
                     />
                 </Grid>
