@@ -5,12 +5,11 @@ import { ProvideAuth } from "./hooks/useProvideAuth";
 import Admin from "./containers/administration";
 import Index from "./containers";
 import NavBar from "./containers/navBar";
+import Chat from "./containers/chat";
 import axios from "axios";
 
 function App() {
 
-    // change the base url of axios to our api
-    // axios.defaults.baseURL = process.env.REACT_APP_SERVER_API_URL
     
     return (
         <>
@@ -23,6 +22,7 @@ function App() {
                             <Route exact path="/login" element={<Login />} />
                             <Route exact path="/admin" element={<Admin />} />
                             <Route exact path="/user" element={<User />} />
+                            <Route exact path="/chat" element={<Chat />} />
                         </Routes>
                     </div>
                 </Router>
