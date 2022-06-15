@@ -39,6 +39,9 @@ app.use("/api/index", indexRouter);
 var userRouter = require("./routes/user");
 app.use("/api/user", userRouter);
 
+var chatRouter = require("./routes/chat");
+app.use("/api/chat", chatRouter)
+
 // Forbind til MongoDB
 mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
     if (err) {
