@@ -16,13 +16,15 @@ function App() {
         <>
             <ProvideAuth>
                 <Router>
-                <NavBar />
-                    <Routes>
-                        <Route exact path="/" element={<Index />} />
-                        <Route exact path="/login" element={<Login />} />
-                        <Route exact path="/admin" element={<Admin />} />
-                        <Route exact path="/user" element={<User />} />
-                    </Routes>
+                    <div>
+                    <NavBar />
+                        <Routes>
+                            <Route exact path="/" element={<Index />} />
+                            <Route exact path="/login" element={<Login />} />
+                            <Route exact path="/admin" element={<Admin />} />
+                            <Route exact path="/user" element={<User />} />
+                        </Routes>
+                    </div>
                 </Router>
             </ProvideAuth>
         </>
