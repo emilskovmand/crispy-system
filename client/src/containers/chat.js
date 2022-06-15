@@ -11,8 +11,10 @@ export default function Chat({}) {
     const textInput = useRef();
 
     const handleSendText = (ev) => {
-        const text = textInput.current.value;
-        textInput.current.value = "";
+        const textValue = textInput.current.value;
+        AddMessage(textValue).then((response) => {
+            console.log(response.data);
+        })
     }
 
     useEffect(() => {
