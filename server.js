@@ -8,14 +8,15 @@ const passportLocal = require("passport-local").Strategy;
 const MongoStore = require("connect-mongo");
 const methodOverride = require("method-override");
 
-const port = process.env.PORT || 3001;
-
 var app = express();
 
 app.use(express.json()); // parses header requests (req.body)
 app.use(methodOverride("_method"));
 app.set("json spaces", 2); // sets JSON spaces for clarity
 require("dotenv/config");
+require('dotenv-flow').config();
+
+const port = process.env.PORT || 3001;
 
 app.use(
     session({
@@ -33,10 +34,10 @@ app.use(passport.session());
 require("./passportConfig")(passport);
 
 var indexRouter = require("./routes/index");
-app.use("/index", indexRouter);
+app.use("/api/index", indexRouter);
 
 var userRouter = require("./routes/user");
-app.use("/user", userRouter);
+app.use("/api/user", userRouter);
 
 // Forbind til MongoDB
 mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {

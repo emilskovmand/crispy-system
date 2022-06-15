@@ -10,7 +10,7 @@ import axios from "axios";
 function App() {
 
     // change the base url of axios to our api
-    axios.defaults.baseURL = process.env.REACT_APP_SERVER_API_URL
+    // axios.defaults.baseURL = process.env.REACT_APP_SERVER_API_URL
     
     return (
         <>
