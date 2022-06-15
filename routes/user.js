@@ -79,7 +79,7 @@ router.post("/login", async (req, res, next) => {
                     res.json(err);
                     console.error(err);
                 }
-                res.json("Loggede ind med succes.");
+                res.json({ message: "Login success", success: true });
             });
         }
     })(req, res, next);

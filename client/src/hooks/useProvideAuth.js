@@ -28,6 +28,8 @@ export function useProvideAuth() {
             Email: Email,
             loggedIn: true,
         });
+
+        
     };
 
     const setAuth = (AuthObject) => {

@@ -8,12 +8,14 @@ import NavBar from "./containers/navBar";
 
 function App() {
     
+    
+
     return (
         <>
             <ProvideAuth>
                 <Router>
                     <div>
-                    <NavBar />
+                        <NavBar />
                         <Routes>
                             <Route exact path="/" element={<Index />} />
                             <Route exact path="/login" element={<Login />} />

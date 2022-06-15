@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useAuth } from '../hooks/useProvideAuth'
+import { useAuth, useProvideAuth } from '../hooks/useProvideAuth'
 import axios from "axios";
 
 export default function Login() {
@@ -28,8 +28,17 @@ export default function Login() {
             username: state.userName,
             password: state.password
         }).then(response => {
-            if (response.statusText === 200) {
-                Auth.setAuth('test name', 'test email')
+            console.log(response.data)
+
+            if (response.status === 200) {
+                axios.get("api/user/getUser").then(response => {
+                    console.log(response.data)
+                    Auth.loginAuth(response.data.name, response.data.email)
+
+                    localStorage.setItem('name', response.data.name)
+                    localStorage.setItem('name', response.data.email)
+                    localStorage.setItem('name', response.data.)
+                })
             }
         })
     }
