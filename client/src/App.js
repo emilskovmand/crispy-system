@@ -9,7 +9,6 @@ import Chat from "./containers/chat";
 import axios from "axios";
 
 function App() {
-
     
     return (
         <>
