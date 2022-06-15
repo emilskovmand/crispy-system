@@ -5,8 +5,13 @@ import { ProvideAuth } from "./hooks/useProvideAuth";
 import Admin from "./containers/administration";
 import Index from "./containers";
 import NavBar from "./containers/navBar";
+import axios from "axios";
 
 function App() {
+
+    // change the base url of axios to our api
+    axios.defaults.baseURL = process.env.REACT_APP_SERVER_API_URL
+    
     return (
         <>
             <ProvideAuth>

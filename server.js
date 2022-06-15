@@ -41,6 +41,7 @@ app.use("/user", userRouter);
 // Forbind til MongoDB
 mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
     if (err) {
+        console.log(process.env.DB_CONNECTION_STRING)
         throw err;
     } else {
         console.log("Connected to MongoDB!");

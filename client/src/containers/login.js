@@ -2,11 +2,12 @@ import { React, useState } from "react";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useAuthContext } from '../hooks/useProvideAuth'
+import { useAuth } from '../hooks/useProvideAuth'
+import axios from "axios";
 
 export default function Login() {
 
-    const { loginAuth } = useAuthContext()
+    const Auth = useAuth()
 
     const [state, setState] = useState({
         userName: '',
@@ -21,15 +22,14 @@ export default function Login() {
     }
 
     // this should probably be in some state managnemt file...
-    function login(user) {
+    function login() {
         // call api login with login details
-        fetch("BACKEND URL HERE FROM SOME .ENV", {
-            "method": "POST",
-            "body": JSON.stringify({user})
-        })
-        .then(response => response.json())
-        .then((data) => {
-            console.log(data)
+        axios.post("/api/user/login", {
+            username: state.userName,
+            password: state.password
+        }).then(response => {
+            console.log(response)
+            console.log(Auth)
         })
     }
 
@@ -58,7 +58,7 @@ export default function Login() {
                 </Grid>
 
                 <Grid item xs={6}>
-                    <Button>Login</Button>
+                    <Button onClick={login}>Login</Button>
                 </Grid>
             </Grid>
         </>
