@@ -12,17 +12,8 @@ export default function User() {
 
     const Auth = useAuth()
 
-    const [state, setState] = useState({
-        email: Auth.,
-        userName: '',
-        password: ''
-    })
-
     const userInputEvent = (event) => {
-        setState({
-            ...state,
-            [event.target.name]: event.target.value,
-        });
+
     }
     
     return (
@@ -38,7 +29,7 @@ export default function User() {
                             <Grid item xs={6}>
                                 <TextField
                                     onChange={userInputEvent}
-                                    value={state.email}
+                                    value={""}
                                     name="email"
                                     label="Email"
                                     type="text"
@@ -48,7 +39,7 @@ export default function User() {
                             <Grid item xs={6}>
                                 <TextField
                                     onChange={userInputEvent}
-                                    value={state.userName}
+                                    value={""}
                                     name="userName"
                                     label="User Name"
                                     type="text"
@@ -58,7 +49,7 @@ export default function User() {
                             <Grid item xs={6}>
                                 <TextField
                                     onChange={userInputEvent}
-                                    value={state.password}
+                                    value={""}
                                     name="password"
                                     label="Password"
                                     type="password"
