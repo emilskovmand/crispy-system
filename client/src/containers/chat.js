@@ -3,6 +3,7 @@ import ChatMsg from '../components/chatMessage'
 import {Box, Grid, TextField, Button} from '@mui/material'
 import { AddMessage } from '../services/chatServices'
 import {useAuth} from '../hooks/useProvideAuth'
+import { io } from 'socket.io-client'
 
 export default function Chat({}) {
     const [data, setData] = useState(null);
@@ -18,9 +19,12 @@ export default function Chat({}) {
     }
 
     useEffect(() => {
-    
+        const socket = io('http://127.0.0.1:3000/api/chatSocket')
+        socket.on("date", data => {
+            console.log(data);
+        })
         return () => {
-        
+            socket.disconnect();
         }
     }, [])
     

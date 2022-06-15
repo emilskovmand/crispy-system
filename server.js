@@ -7,8 +7,13 @@ var passport = require("passport");
 const passportLocal = require("passport-local").Strategy;
 const MongoStore = require("connect-mongo");
 const methodOverride = require("method-override");
+const http = require('http')
+const socketIO = require('socket.io');
 
 var app = express();
+
+const server = http.createServer(app)
+const io = new socketIO.Server(server);
 
 app.use(express.json()); // parses header requests (req.body)
 app.use(methodOverride("_method"));
@@ -33,6 +38,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 require("./passportConfig")(passport);
 
+io.of('/api/chatSocket').on('connection', (socket) => {
+    socket.on('disconnect', () => {
+        console.log("Someone left the socket.");
+    })
+    socket.on('date', () => {
+        socket.emit('date', new Date());
+    })
+})
+
+app.use((req, res, next) => {
+    req.io = io;
+    return next();
+})
+
 var indexRouter = require("./routes/index");
 app.use("/api/index", indexRouter);
 
@@ -53,6 +72,6 @@ mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useU
 });
 
 // Lyt til port 3001 ELLLER den dynamiske port fra hosten
-app.listen(port, () => console.log(`Listening on port ${port}`));
+server.listen(port, () => console.log(`Listening on port ${port}`));
 
 module.exports = app;
