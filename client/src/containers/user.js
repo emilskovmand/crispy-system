@@ -6,11 +6,14 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
+import { useAuth } from '../hooks/useProvideAuth'
 
 export default function User() {
 
+    const Auth = useAuth()
+
     const [state, setState] = useState({
-        email: '',
+        email: Auth.,
         userName: '',
         password: ''
     })
