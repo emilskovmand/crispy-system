@@ -6,6 +6,7 @@ import Admin from "./containers/administration";
 import Index from "./containers";
 import NavBar from "./containers/navBar";
 import Chat from "./containers/chat";
+import Signup from "./containers/signup"
 import {socket, SocketContext} from "./hooks/useChatSocket"
 import { ProvideAuth } from "./hooks/useProvideAuth";
 import AuthSync from "./components/AuthSync";
@@ -38,6 +39,7 @@ function App() {
                                         <Route exact path="/admin" element={<Admin />} />
                                         <Route exact path="/user" element={<User />} />
                                         <Route exact path="/chat" element={<Chat />} />
+                                        <Route exact path="/signup" element={<Signup />} />
                                     </Routes>
                                 </div>
                             </AuthSync>

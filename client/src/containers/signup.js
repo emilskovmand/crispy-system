@@ -1,4 +1,7 @@
-import React from "react";
+import { React, useState } from "react";
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 export default function Administration() {
 
@@ -12,6 +15,10 @@ export default function Administration() {
             ...state,
             [event.target.name]: event.target.value,
         });
+    }
+
+    async function signUpUser() {
+        
     }
 
     return (
@@ -39,7 +46,7 @@ export default function Administration() {
                 </Grid>
 
                 <Grid item xs={6}>
-                    <Button onClick={login}>Login</Button>
+                    <Button onClick={signUpUser}>Sign up</Button>
                 </Grid>
             </Grid>
         </>

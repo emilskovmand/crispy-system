@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useAuth } from '../hooks/useProvideAuth'
 import axios from "axios";
+import {Link} from "react-router-dom"
 
 export default function Login() {
 
@@ -24,16 +25,17 @@ export default function Login() {
     // this should probably be in some state managnemt file...
     async function login() {
         // call api login with login details
-        axios.post("api/user/login", {
+        const loginResponse = await axios.post("api/user/login", {
             username: state.userName,
             password: state.password
-        }).then(response => {
-            if (response.status === 200) {
-                axios.get("api/user/getUser").then(response => {
-                    Auth.loginAuth(response.data.name, response.data.email)
-                })
-            }
         })
+        if (loginResponse.status === 200) {
+            axios.get("api/user/getUser").then(loginResponse => {
+                Auth.loginAuth(loginResponse.data.name, loginResponse.data.email)
+                
+                history.replace({ pathname: '/', state:{isActive: true}});
+            })
+        }
     }
 
     return (
@@ -62,8 +64,11 @@ export default function Login() {
 
                 <Grid item xs={6}>
                     <Button onClick={login}>Login</Button>
+                    <br></br>
                     don't have an account?
-                    <Button size="small" onClick={login}>Sign up</Button>
+                    <Link to={"/signup"}>
+                        <Button size="small">Sign up</Button>
+                    </Link>
                 </Grid>
             </Grid>
         </>

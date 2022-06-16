@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import { useAuth } from '../hooks/useProvideAuth'
-import axios from "axios";
+import { enableUser, disableUser, updateUser } from "../services/userServices";
 
 export default function User() {
     
@@ -26,29 +26,14 @@ export default function User() {
         });
     }
 
-    async function updateUser() {
-        const userResponse = await axios.get('api/user/getUser')
-        if (userResponse.status === 200) {
-            const test = await axios.put('api/user/update' + userResponse.data._id)
-            console.log(test)
+    async function handleUpdateUser() {
+        const updateResponse = await updateUser(state.userName, state.email, state.password)
+        if (updateResponse.status === 200) {
+            Auth.loginAuth()
+        } else {
+            
         }
-
-        const updateResponse = await axios.put('api/user/update')
-        console.log(updateResponse.data)
-    }
-
-    async function enableUser() {
-        const userResponse = await axios.get('api/user/getUser')
-        if (userResponse.status === 200) {
-            axios.post('api/user/enable/' + userResponse.data._id)
-        }
-    }
-
-    async function disableUser() {
-        const userResponse = await axios.get('api/user/getUser')
-        if (userResponse.status === 200) {
-            axios.post('api/user/disable/' + userResponse.data._id)
-        }
+        
     }
     
     return (
@@ -93,7 +78,7 @@ export default function User() {
                             </Grid>
                         </Grid>
                         <CardActions>
-                            <Button onClick={updateUser} size="big">Update</Button>
+                            <Button onClick={handleUpdateUser} size="big">Update</Button>
                         </CardActions>
                     </CardContent>
                 </Card>
