@@ -5,6 +5,7 @@ var addUser = require("../route_methods/userMethods/addUser");
 var updateUser = require("../route_methods/userMethods/updateUser");
 var disableUser = require("../route_methods/userMethods/disableUser");
 var enableUser = require("../route_methods/userMethods/enableUser");
+var profilePicture = require("../route_methods/userMethods/profilePicture")
 var passport = require("passport");
 var userModel = require("../models/User");
 
@@ -20,6 +21,16 @@ router.get("/list", async (req, res) => {
 router.get("/getUser", async (req, res) => {
     res.json(req.user).status(200);
 });
+
+// ROUTE: /user/uploadPicture/%USERID%
+router.post("/uploadPicture/:_userId", async (req, res) => {
+    try {
+        await profilePicture(req, res, req.params._userId);
+    } catch (error) {
+        console.error(error);
+        res,json({message: "Something went wrong.", success: false }).status(200)
+    }
+})
 
 // ROUTE: /user/add
 router.post("/add", async (req, res) => {
