@@ -7,15 +7,23 @@ var passport = require("passport");
 const passportLocal = require("passport-local").Strategy;
 const MongoStore = require("connect-mongo");
 const methodOverride = require("method-override");
-
-const port = process.env.PORT || 3001;
+const http = require('http')
 
 var app = express();
+
+const server = http.createServer(app)
+const socketIO = require('socket.io');
+const io = new socketIO.Server(server, {
+    path: '/socket'
+})
 
 app.use(express.json()); // parses header requests (req.body)
 app.use(methodOverride("_method"));
 app.set("json spaces", 2); // sets JSON spaces for clarity
 require("dotenv/config");
+require('dotenv-flow').config();
+
+const port = process.env.PORT || 3001;
 
 app.use(
     session({
@@ -32,11 +40,33 @@ app.use(passport.initialize());
 app.use(passport.session());
 require("./passportConfig")(passport);
 
+io.of("/chatSocket").on('connection', (socket) => {
+    console.log(`${socket.id} connected to the socket.`);
+    socket.on('disconnect', () => {
+        console.log(`${socket.id} disconnected from the socket.`);
+    })
+    socket.on('chatmessage sent', () => {
+        socket.broadcast.emit("new chatmessage");
+        socket.emit("new chatmessage");
+    })
+    socket.on('date', () => {
+        socket.emit('date', new Date());
+    })
+})
+
+app.use((req, res, next) => {
+    req.io = io;
+    return next();
+})
+
 var indexRouter = require("./routes/index");
-app.use("/index", indexRouter);
+app.use("/api/index", indexRouter);
 
 var userRouter = require("./routes/user");
-app.use("/user", userRouter);
+app.use("/api/user", userRouter);
+
+var chatRouter = require("./routes/chat");
+app.use("/api/chat", chatRouter)
 
 var translationRouter = require("./routes/translation");
 app.use("/translation", translationRouter);
@@ -44,6 +74,7 @@ app.use("/translation", translationRouter);
 // Forbind til MongoDB
 mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
     if (err) {
+        console.log(process.env.DB_CONNECTION_STRING)
         throw err;
     } else {
         console.log("Connected to MongoDB!");
@@ -51,6 +82,6 @@ mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useU
 });
 
 // Lyt til port 3001 ELLLER den dynamiske port fra hosten
-app.listen(port, () => console.log(`Listening on port ${port}`));
+server.listen(port, () => console.log(`Listening on port ${port}`));
 
 module.exports = app;

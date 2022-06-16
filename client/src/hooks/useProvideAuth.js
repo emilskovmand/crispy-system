@@ -1,18 +1,26 @@
 import React, { useState, useContext } from "react";
 
-export const AuthContext = React.createContext({
-    Name: null,
-    Email: null,
-    loggedIn: false,
-    setAuth: () => {},
-});
+const authContext = React.createContext();
 
-export const useAuthContext = () => {
-    return useContext(AuthContext);
+export const useAuth = () => {
+    return useContext(authContext);
 };
 
-export function AuthProvider({ children }) {
-    const [Auth, setAuthobject] = useState(null);
+export function ProvideAuth({children}) {
+    const auth = useProvideAuth();
+    return (
+        <>
+            <authContext.Provider value={auth}>{children}</authContext.Provider>
+        </>
+    );
+}
+
+export function useProvideAuth() {
+    const [Auth, setAuthobject] = useState({
+        Name: null,
+        Email: null,
+        loggedIn: false,
+    });
 
     const loginAuth = (Name, Email) => {
         setAuth({
@@ -20,10 +28,12 @@ export function AuthProvider({ children }) {
             Email: Email,
             loggedIn: true,
         });
+
+        
     };
 
     const setAuth = (AuthObject) => {
-        setAuth(AuthObject);
+        setAuthobject(AuthObject);
     };
 
     const logoutAuth = () => {
@@ -34,15 +44,9 @@ export function AuthProvider({ children }) {
         });
     };
 
-    const contextValue = {
-        Auth: Auth,
-        loginAuth: loginAuth,
-        logoutAuth: logoutAuth,
-    };
-
-    return (
-        <>
-            <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-        </>
-    );
+    return {
+        Auth,
+        loginAuth,
+        logoutAuth
+    }
 }
