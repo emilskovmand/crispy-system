@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
-import { ProvideAuth, useAuth, useProvideAuth } from '../hooks/useProvideAuth'
+import { useProvideAuth } from '../hooks/useProvideAuth'
 import axios from "axios";
 
 export default function User() {
@@ -14,49 +14,57 @@ export default function User() {
     const Auth = useProvideAuth()
     
     const [state, setState] = useState({
-        email: '',
-        userName: '',
+        email: Auth.Auth.Email,
+        userName: Auth.Auth.Name,
         password: ''
     })
     
-    useEffect(() => {
-        console.log(Auth.Auth.Email)
-        state.email = Auth.Auth.Email
-        state.userName = Auth.Auth.Name
-
-        axios.get("api/user/getUser").then(response => {
-            console.log(response)
-        })
-    }, [])
-
-
-
     const userInputEvent = (event) => {
-
+        setState({
+            ...state,
+            [event.target.name]: event.target.value,
+        });
     }
 
-    function enableUser() {
-        
+    async function updateUser() {
+        const userResponse = await axios.get('api/user/getUser')
+        if (userResponse.status === 200) {
+            const test = await axios.put('api/user/update' + userResponse.data._id)
+            console.log(test)
+        }
+
+        const updateResponse = await axios.put('api/user/update')
+        console.log(updateResponse.data)
     }
 
-    function disableUser() {
+    async function enableUser() {
+        const userResponse = await axios.get('api/user/getUser')
+        if (userResponse.status === 200) {
+            axios.post('api/user/enable/' + userResponse.data._id)
+        }
+    }
 
+    async function disableUser() {
+        const userResponse = await axios.get('api/user/getUser')
+        if (userResponse.status === 200) {
+            axios.post('api/user/disable/' + userResponse.data._id)
+        }
     }
     
     return (
         <>
             <Grid direction="column" container alignItems="center" justifyContent="center" marginTop={5}>
-                <Card sx={{ minWidth: 275, maxWidth: 500 }}>
-                    <CardContent>
-                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom marginBottom={3}>
                             You can update your user here
                         </Typography>
+                <Card sx={{ minWidth: 275, maxWidth: 500 }}>
+                    <CardContent>
 
-                        <Grid container spacing={2} alignItems="center" justifyContent="center" direction="column" marginTop={5}>
+                        <Grid container spacing={2} alignItems="center" justifyContent="center" direction="column">
                             <Grid item xs={6}>
                                 <TextField
                                     onChange={userInputEvent}
-                                    value={""}
+                                    value={Auth.Auth.Email}
                                     name="email"
                                     label="Email"
                                     type="text"
@@ -66,7 +74,7 @@ export default function User() {
                             <Grid item xs={6}>
                                 <TextField
                                     onChange={userInputEvent}
-                                    value={""}
+                                    value={state.name}
                                     name="userName"
                                     label="User Name"
                                     type="text"
@@ -76,7 +84,7 @@ export default function User() {
                             <Grid item xs={6}>
                                 <TextField
                                     onChange={userInputEvent}
-                                    value={""}
+                                    value={state.password}
                                     name="password"
                                     label="Password"
                                     type="password"
@@ -85,7 +93,7 @@ export default function User() {
                             </Grid>
                         </Grid>
                         <CardActions>
-                            <Button size="big">Update</Button>
+                            <Button onClick={updateUser} size="big">Update</Button>
                         </CardActions>
                     </CardContent>
                 </Card>
@@ -99,7 +107,7 @@ export default function User() {
                         </Typography>
 
                             <Button onClick={disableUser} size="big">Disable</Button>
-                            <Button onclick={enableUser} size="big">Enable</Button>
+                            <Button onClick={enableUser} size="big">Enable</Button>
                     </CardContent>
                 </Card>
             </Grid>

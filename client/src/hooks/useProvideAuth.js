@@ -29,7 +29,9 @@ export function useProvideAuth() {
             loggedIn: true,
         });
 
-        
+        localStorage.setItem('Name', Name)
+        localStorage.setItem('Email', Email)
+        localStorage.setItem('loggedIn', true)
     };
 
     const setAuth = (AuthObject) => {
@@ -42,6 +44,10 @@ export function useProvideAuth() {
             Email: null,
             loggedIn: false,
         });
+
+        localStorage.removeItem('Name')
+        localStorage.removeItem('Email')
+        localStorage.removeItem('loggedIn')
     };
 
     return {
