@@ -8,6 +8,7 @@ var enableUser = require("../route_methods/userMethods/enableUser");
 var profilePicture = require("../route_methods/userMethods/profilePicture")
 var passport = require("passport");
 var userModel = require("../models/User");
+var stream = require("stream");
 
 /* GET user page. */
 
@@ -28,7 +29,37 @@ router.post("/uploadPicture/:_userId", async (req, res) => {
         await profilePicture(req, res, req.params._userId);
     } catch (error) {
         console.error(error);
-        res,json({message: "Something went wrong.", success: false }).status(200)
+        res.json({message: "Something went wrong.", success: false }).status(200)
+    }
+})
+
+// ROUTE: /user/Picture/%USERID%
+router.get("/picture/:_userId", async (req, res) => {
+    var image = await userModel.findById(req.params._userId).select('ProfilePicture');
+    if (image.ProfilePicture.contentType) {
+        res.setHeader('Content-Type',image.ProfilePicture.contentType);
+        var readable = stream.Readable.from(image.ProfilePicture.data);
+        readable.pipe(res);
+        res.status(200);
+    } else {
+        res.json({message: "No image is stored on this profile"}).status(200)
+    }
+})
+
+// ROUTE: /user/Picture
+router.get("/picture", async (req, res) => {
+    if (req.user) {
+        var image = await userModel.findById(req.user._id).select('ProfilePicture');
+        if (image.ProfilePicture.contentType) {
+            res.setHeader('Content-Type',image.ProfilePicture.contentType);
+            var readable = stream.Readable.from(image.ProfilePicture.data);
+            readable.pipe(res);
+            res.status(200);
+        } else {
+            res.json({message: "No image is stored on this profile"}).status(200)
+        }
+    } else {
+        res.json({message: "Not logged in."}).status(200) 
     }
 })
 
