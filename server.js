@@ -8,12 +8,14 @@ const passportLocal = require("passport-local").Strategy;
 const MongoStore = require("connect-mongo");
 const methodOverride = require("method-override");
 const http = require('http')
-const socketIO = require('socket.io');
 
 var app = express();
 
 const server = http.createServer(app)
-const io = new socketIO.Server(server);
+const socketIO = require('socket.io');
+const io = new socketIO.Server(server, {
+    path: '/socket'
+})
 
 app.use(express.json()); // parses header requests (req.body)
 app.use(methodOverride("_method"));
@@ -38,9 +40,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 require("./passportConfig")(passport);
 
-io.of('/api/chatSocket').on('connection', (socket) => {
+io.of("/chatSocket").on('connection', (socket) => {
+    console.log(`${socket.id} connected to the socket.`);
     socket.on('disconnect', () => {
-        console.log("Someone left the socket.");
+        console.log(`${socket.id} disconnected from the socket.`);
+    })
+    socket.on('chatmessage sent', () => {
+        socket.broadcast.emit("new chatmessage");
+        socket.emit("new chatmessage");
     })
     socket.on('date', () => {
         socket.emit('date', new Date());

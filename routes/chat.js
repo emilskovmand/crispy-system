@@ -1,11 +1,12 @@
 var express = require("express");
 var router = express.Router();
 var chatModel = require("../models/Chat");
+var userModel = require("../models/User")
 
 router.get('/chatmessages/list', async (req, res) => {
     try {    
-        var chatMessages = await chatModel.find().sort('-CreatedTimestamp').limit(10);
-        res.json({message: "Retrieved messages.", data: chatMessages, success: true}).status(200);
+        var chatMessages = await chatModel.find().limit(10).sort('-CreatedTimestamp').populate({path: 'user', model: userModel, select: 'Email Name' });
+        res.json({message: "Retrieved messages.", data: chatMessages.reverse(), success: true}).status(200);
     } catch (error) {
         res.json({message: "Something went wrong.", success: false}).status(500);
     }
