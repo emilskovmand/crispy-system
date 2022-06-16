@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography, Avatar, Grid } from '@mui/material'
 
-export default function ChatMessage({ avatar, message, messageId, side }) {
+export default function ChatMessage({ avatar, message, messageId, side, username = "Ukendt" }) {
   return (
         <>
             <Grid
@@ -20,6 +20,7 @@ export default function ChatMessage({ avatar, message, messageId, side }) {
                 )}
                 <Grid item xs={8}>
                     <div style={{textAlign: side === 'right' ? 'right' : 'left'}}>
+                        {side === "left" && <><Typography fontSize={"11px"} color={"grey"} >{username}</Typography></>}
                         <Typography 
                                 display={'inline-block'}
                                 padding={'15px'}
