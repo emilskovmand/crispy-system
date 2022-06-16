@@ -6,16 +6,16 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
-import { useProvideAuth } from '../hooks/useProvideAuth'
+import { useAuth } from '../hooks/useProvideAuth'
 import axios from "axios";
 
 export default function User() {
     
-    const Auth = useProvideAuth()
+    const user = useAuth()
     
     const [state, setState] = useState({
-        email: Auth.Auth.Email,
-        userName: Auth.Auth.Name,
+        email: user.Auth.Email,
+        userName: user.Auth.Name,
         password: ''
     })
     
@@ -64,7 +64,7 @@ export default function User() {
                             <Grid item xs={6}>
                                 <TextField
                                     onChange={userInputEvent}
-                                    value={Auth.Auth.Email}
+                                    defaultValue={user.Auth.Email}
                                     name="email"
                                     label="Email"
                                     type="text"
@@ -74,7 +74,7 @@ export default function User() {
                             <Grid item xs={6}>
                                 <TextField
                                     onChange={userInputEvent}
-                                    value={state.name}
+                                    defaultValue={user.Auth.Name}
                                     name="userName"
                                     label="User Name"
                                     type="text"
