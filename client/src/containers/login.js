@@ -31,8 +31,10 @@ export default function Login() {
         })
         if (loginResponse.status === 200) {
             axios.get("api/user/getUser").then(loginResponse => {
-                Auth.loginAuth(loginResponse.data.name, loginResponse.data.email)
-                navigate('/chat', { replace: true });
+                if (loginResponse.data.name) {
+                    Auth.loginAuth(loginResponse.data.name, loginResponse.data.email)
+                    navigate('/chat', { replace: true });
+                }
             })
         }
     }
