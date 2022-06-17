@@ -37,8 +37,9 @@ const ResponsiveAppBar = () => {
     setAnchorElNav(null);
   };
 
+  // close settings menu and logout if "Logout" is selected in the menu
   const handleCloseUserMenu = async (setting) => {
-    if (setting == "Logout") {
+    if (setting === "Logout") {
       await axios.get("api/user/logout")
       Auth.logoutAuth();
       navigate('/', { replace: true });
