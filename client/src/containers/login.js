@@ -7,7 +7,6 @@ import axios from "axios";
 import {Link} from "react-router-dom"
 
 export default function Login() {
-
     const Auth = useAuth()
 
     const [state, setState] = useState({
@@ -31,9 +30,7 @@ export default function Login() {
         })
         if (loginResponse.status === 200) {
             axios.get("api/user/getUser").then(loginResponse => {
-                Auth.loginAuth(loginResponse.data.name, loginResponse.data.email)
-                
-                history.replace({ pathname: '/', state:{isActive: true}});
+                Auth.loginAuth(loginResponse.data.name, loginResponse.data.email)                
             })
         }
     }

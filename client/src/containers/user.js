@@ -29,7 +29,7 @@ export default function User() {
     async function handleUpdateUser() {
         const updateResponse = await updateUser(state.userName, state.email, state.password)
         if (updateResponse.status === 200) {
-            Auth.loginAuth()
+
         } else {
             
         }

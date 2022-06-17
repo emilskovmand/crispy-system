@@ -69,24 +69,25 @@ export default function Chat({}) {
                         })}
                     </>}
                 </Box>
-                <TextField
-                    placeholder="Skriv din beskeder her..."
-                    multiline
-                    inputRef={textInput}
-                    rows={2}
-                    maxRows={4}
-                    borderRadius='12px'
-                    boxShadow='2'
-                    style={{marginTop: '5px', width: '100%'}}
-                />
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: { xs: 'column', md: 'row' },
-                        alignItems: 'right',
-                        justifyContent: 'right',
-                        marginTop: '2px'
-                    }}
+                {auth.Auth.loggedIn && <>
+                    <TextField
+                        placeholder="Skriv din beskeder her..."
+                        multiline
+                        inputRef={textInput}
+                        rows={2}
+                        maxRows={4}
+                        borderRadius='12px'
+                        boxShadow='2'
+                        style={{marginTop: '5px', width: '100%'}}
+                    />
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: { xs: 'column', md: 'row' },
+                            alignItems: 'right',
+                            justifyContent: 'right',
+                            marginTop: '2px'
+                        }}
                     >
                         <Button 
                             onClick={handleMessageSent}
@@ -94,7 +95,8 @@ export default function Chat({}) {
                         >
                             Send
                         </Button>
-                </Box>
+                    </Box>
+                </>}
             </Box>
         </>
     )

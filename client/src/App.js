@@ -10,6 +10,7 @@ import Signup from "./containers/signup"
 import {socket, SocketContext} from "./hooks/useChatSocket"
 import { ProvideAuth } from "./hooks/useProvideAuth";
 import AuthSync from "./components/AuthSync";
+import PrivateRoute from "./components/privateRoute";
 
 function App() {
     var io = useContext(SocketContext)
@@ -34,10 +35,16 @@ function App() {
                                 <div>
                                     <NavBar />
                                     <Routes>
-                                        <Route exact path="/" element={<Index />} />
+                                        <Route exact path="/" element={<PrivateRoute />} > 
+                                            <Route exact path="/" element={<Index />} />
+                                        </Route>
                                         <Route exact path="/login" element={<Login />} />
-                                        <Route exact path="/admin" element={<Admin />} />
-                                        <Route exact path="/user" element={<User />} />
+                                        <Route exact path="/admin" element={<PrivateRoute />} >
+                                            <Route exact path="/admin" element={<Admin />} />
+                                        </Route>
+                                        <Route exact path="/user" element={<PrivateRoute />} >
+                                            <Route exact path="/user" element={<User />} />
+                                        </Route>
                                         <Route exact path="/chat" element={<Chat />} />
                                         <Route exact path="/signup" element={<Signup />} />
                                     </Routes>
