@@ -30,6 +30,10 @@ export function useProvideAuth() {
             loggedIn: true,
         });
 
+        localStorage.removeItem('Name')
+        localStorage.removeItem('Email')
+        localStorage.removeItem('loggedIn')
+
         localStorage.setItem('Name', Name)
         localStorage.setItem('Email', Email)
         localStorage.setItem('loggedIn', true)

@@ -65,20 +65,19 @@ router.post("/enable/:_userId", async (req, res) => {
 router.post("/login", async (req, res, next) => {
     passport.authenticate("local", { session: true, successRedirect: "/", failureRedirect: "/login" }, (err, user, info) => {
         if (err) {
-            res.status(500);
-            res.json(err);
+            res.json(err).status(500);
             console.error(err);
         }
         if (!user) {
-            res.json({ message: "No user exists", success: false });
-            res.status(200);
+            // successful but "Non-Authoritative Information"
+            res.json({ message: "No user exists", success: false }).status(203);
         } else {
             req.logIn(user, (err) => {
                 if (err) {
-                    res.status(500);
-                    res.json(err);
+                    res.json(err).status(500);
                     console.error(err);
                 }
+                res.status(200);
                 res.json({ message: "Login success", success: true });
             });
         }
@@ -93,11 +92,9 @@ router.get("/logout", async (req, res, next) => {
                 return next(err);
             }
         });
-        res.send({ message: "Logged out.", success: true });
-        res.status(200);
+        res.send({ message: "Logged out.", success: true }).status(200);
     } else {
-        res.send({ message: "Not logged in.", success: false });
-        res.status(200);
+        res.send({ message: "Not logged in.", success: false }).status(200);
     }
 });
 

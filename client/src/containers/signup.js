@@ -2,11 +2,13 @@ import { React, useState } from "react";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { addUser } from "../services/userServices";
 
 export default function Administration() {
 
     const [state, setState] = useState({
         userName: '',
+        email: '',
         password: ''
     })
     
@@ -15,10 +17,6 @@ export default function Administration() {
             ...state,
             [event.target.name]: event.target.value,
         });
-    }
-
-    async function signUpUser() {
-        
     }
 
     return (
@@ -37,6 +35,16 @@ export default function Administration() {
                 <Grid alignItems="center" item xs={6}>
                     <TextField
                         onChange={userInputEvent}
+                        value={state.email}
+                        name="email"
+                        label="Email"
+                        type="text"
+                        variant="outlined"
+                    />
+                </Grid>
+                <Grid alignItems="center" item xs={6}>
+                    <TextField
+                        onChange={userInputEvent}
                         value={state.password}
                         name="password"
                         label="Password"
@@ -46,7 +54,7 @@ export default function Administration() {
                 </Grid>
 
                 <Grid item xs={6}>
-                    <Button onClick={signUpUser}>Sign up</Button>
+                    <Button onClick={() => {addUser(state.userName, state.email, state.password)}}>Sign up</Button>
                 </Grid>
             </Grid>
         </>

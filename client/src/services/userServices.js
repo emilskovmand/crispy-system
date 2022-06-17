@@ -1,5 +1,17 @@
 import axios from 'axios'
 
+export async function addUser(name, email, password) {
+    const addResponse = await axios.post('api/user/add', {
+        Name: name,
+        Email: email,
+        Password: password
+    })
+    if (addResponse.status === 200) {
+        
+    } 
+
+}
+
 export async function updateUser(name, email, password) {
     const userResponse = await axios.get('api/user/getUser')
     if (userResponse.status === 200) {
