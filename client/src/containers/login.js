@@ -4,11 +4,12 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useAuth } from '../hooks/useProvideAuth'
 import axios from "axios";
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 
 export default function Login() {
 
     const Auth = useAuth()
+    const navigate = useNavigate()
 
     const [state, setState] = useState({
         userName: '',
@@ -32,6 +33,7 @@ export default function Login() {
         if (loginResponse.status === 200) {
             axios.get("api/user/getUser").then(loginResponse => {
                 Auth.loginAuth(loginResponse.data.name, loginResponse.data.email)
+                navigate('/', { replace: true });
             })
         }
     }
