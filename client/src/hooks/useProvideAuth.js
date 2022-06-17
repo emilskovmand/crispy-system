@@ -20,7 +20,7 @@ export function useProvideAuth() {
     const [Auth, setAuthobject] = useState({
         Name: localStorage.getItem('Name'),
         Email: localStorage.getItem('Email'),
-        loggedIn: false,
+        loggedIn: localStorage.getItem('Name') != null
     });
 
     const loginAuth = (Name, Email) => {
