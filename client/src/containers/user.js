@@ -6,57 +6,50 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
-import { ProvideAuth, useAuth, useProvideAuth } from '../hooks/useProvideAuth'
-import axios from "axios";
+import { useAuth } from '../hooks/useProvideAuth'
+import { enableUser, disableUser, updateUser } from "../services/userServices";
 
 export default function User() {
     
-    const Auth = useProvideAuth()
+    const user = useAuth()
     
     const [state, setState] = useState({
-        email: '',
-        userName: '',
+        email: user.Auth.Email,
+        userName: user.Auth.Name,
         password: ''
     })
     
-    useEffect(() => {
-        console.log(Auth.Auth.Email)
-        state.email = Auth.Auth.Email
-        state.userName = Auth.Auth.Name
-
-        axios.get("api/user/getUser").then(response => {
-            console.log(response)
-        })
-    }, [])
-
-
-
     const userInputEvent = (event) => {
-
+        setState({
+            ...state,
+            [event.target.name]: event.target.value,
+        });
     }
 
-    function enableUser() {
+    async function handleUpdateUser() {
+        const updateResponse = await updateUser(state.userName, state.email, state.password)
+        if (updateResponse.status === 200) {
+            Auth.loginAuth()
+        } else {
+            
+        }
         
-    }
-
-    function disableUser() {
-
     }
     
     return (
         <>
             <Grid direction="column" container alignItems="center" justifyContent="center" marginTop={5}>
-                <Card sx={{ minWidth: 275, maxWidth: 500 }}>
-                    <CardContent>
-                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom marginBottom={3}>
                             You can update your user here
                         </Typography>
+                <Card sx={{ minWidth: 275, maxWidth: 500 }}>
+                    <CardContent>
 
-                        <Grid container spacing={2} alignItems="center" justifyContent="center" direction="column" marginTop={5}>
+                        <Grid container spacing={2} alignItems="center" justifyContent="center" direction="column">
                             <Grid item xs={6}>
                                 <TextField
                                     onChange={userInputEvent}
-                                    value={""}
+                                    defaultValue={user.Auth.Email}
                                     name="email"
                                     label="Email"
                                     type="text"
@@ -66,7 +59,7 @@ export default function User() {
                             <Grid item xs={6}>
                                 <TextField
                                     onChange={userInputEvent}
-                                    value={""}
+                                    defaultValue={user.Auth.Name}
                                     name="userName"
                                     label="User Name"
                                     type="text"
@@ -76,7 +69,7 @@ export default function User() {
                             <Grid item xs={6}>
                                 <TextField
                                     onChange={userInputEvent}
-                                    value={""}
+                                    value={state.password}
                                     name="password"
                                     label="Password"
                                     type="password"
@@ -85,7 +78,7 @@ export default function User() {
                             </Grid>
                         </Grid>
                         <CardActions>
-                            <Button size="big">Update</Button>
+                            <Button onClick={handleUpdateUser} size="big">Update</Button>
                         </CardActions>
                     </CardContent>
                 </Card>
@@ -99,7 +92,7 @@ export default function User() {
                         </Typography>
 
                             <Button onClick={disableUser} size="big">Disable</Button>
-                            <Button onclick={enableUser} size="big">Enable</Button>
+                            <Button onClick={enableUser} size="big">Enable</Button>
                     </CardContent>
                 </Card>
             </Grid>

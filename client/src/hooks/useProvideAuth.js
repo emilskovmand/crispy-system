@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useContext } from "react";
 
 const authContext = React.createContext();
@@ -17,8 +18,8 @@ export function ProvideAuth({children}) {
 
 export function useProvideAuth() {
     const [Auth, setAuthobject] = useState({
-        Name: null,
-        Email: null,
+        Name: localStorage.getItem('Name'),
+        Email: localStorage.getItem('Email'),
         loggedIn: false,
     });
 
@@ -29,7 +30,9 @@ export function useProvideAuth() {
             loggedIn: true,
         });
 
-        
+        localStorage.setItem('Name', Name)
+        localStorage.setItem('Email', Email)
+        localStorage.setItem('loggedIn', true)
     };
 
     const setAuth = (AuthObject) => {
@@ -42,6 +45,11 @@ export function useProvideAuth() {
             Email: null,
             loggedIn: false,
         });
+
+        localStorage.removeItem('Name')
+        localStorage.removeItem('Email')
+        localStorage.removeItem('loggedIn')
+        axios.get("/api/user/logout");
     };
 
     return {

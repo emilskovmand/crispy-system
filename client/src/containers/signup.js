@@ -2,13 +2,8 @@ import { React, useState } from "react";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useAuth } from '../hooks/useProvideAuth'
-import axios from "axios";
-import {Link} from "react-router-dom"
 
-export default function Login() {
-
-    const Auth = useAuth()
+export default function Administration() {
 
     const [state, setState] = useState({
         userName: '',
@@ -22,20 +17,8 @@ export default function Login() {
         });
     }
 
-    // this should probably be in some state managnemt file...
-    async function login() {
-        // call api login with login details
-        const loginResponse = await axios.post("api/user/login", {
-            username: state.userName,
-            password: state.password
-        })
-        if (loginResponse.status === 200) {
-            axios.get("api/user/getUser").then(loginResponse => {
-                Auth.loginAuth(loginResponse.data.name, loginResponse.data.email)
-                
-                history.replace({ pathname: '/', state:{isActive: true}});
-            })
-        }
+    async function signUpUser() {
+        
     }
 
     return (
@@ -63,12 +46,7 @@ export default function Login() {
                 </Grid>
 
                 <Grid item xs={6}>
-                    <Button onClick={login}>Login</Button>
-                    <br></br>
-                    don't have an account?
-                    <Link to={"/signup"}>
-                        <Button size="small">Sign up</Button>
-                    </Link>
+                    <Button onClick={signUpUser}>Sign up</Button>
                 </Grid>
             </Grid>
         </>
