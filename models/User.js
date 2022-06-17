@@ -12,6 +12,10 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    ProfilePicture: {
+        data: Buffer,
+        contentType: String,
+    },
     CreatedTimestamp: {
         type: Date,
         required: true,

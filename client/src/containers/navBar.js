@@ -37,8 +37,9 @@ const ResponsiveAppBar = () => {
     setAnchorElNav(null);
   };
 
+  // close settings menu and logout if "Logout" is selected in the menu
   const handleCloseUserMenu = async (setting) => {
-    if (setting == "Logout") {
+    if (setting === "Logout") {
       await axios.get("api/user/logout")
       Auth.logoutAuth();
       navigate('/', { replace: true });
@@ -125,23 +126,39 @@ const ResponsiveAppBar = () => {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-                <Link to={`/${page}`}>
-                    <Button
-                    key={page}
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                    {page}
-                </Button>
-                </Link>
-            ))}
+            {pages.map((page) => {
+                if (page != "user") {
+                  return <Link to={`/${page}`}>
+                            <Button
+                            key={page}
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                            {page}
+                          </Button>
+                        </Link>
+                }
+                else if (Auth.Auth.loggedIn == true) {
+                  return <Link to={`/${page}`}>
+                            <Button
+                            key={page}
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                            {page}
+                          </Button>
+                        </Link>
+                } 
+                else {
+                  return <></>
+                }
+            })}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src="/api/user/picture" />
               </IconButton>
             </Tooltip>
             <Menu
