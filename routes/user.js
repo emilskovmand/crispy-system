@@ -27,7 +27,7 @@ router.post("/add", async (req, res) => {
     if (addResult) {
         res.json({ message: "User created" }).status(200);
     } else {
-        res.json({ message: "Something went wrong or user already exsists" }).status(200);
+        res.json({ message: "Something went wrong or user already exsists" }).status(500);
     }
 });
 
@@ -37,7 +37,7 @@ router.put("/update/:_userId", async (req, res) => {
     if (updateResult) {
         res.json({ message: "Updated user" }).status(200);
     } else {
-        res.json({ message: "Something went wrong" }).status(200);
+        res.json({ message: "Something went wrong" }).status(500);
     }
 });
 
