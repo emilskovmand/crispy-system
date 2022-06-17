@@ -15,7 +15,7 @@ export async function addUser(name, email, password) {
 export async function updateUser(name, email, password) {
     const userResponse = await axios.get('api/user/getUser')
     if (userResponse.status === 200) {
-        await axios.put('api/user/update/' + userResponse.data._id, {
+        return axios.put('api/user/update/' + userResponse.data._id, {
             Name: name,
             Email: email,
             Password: password
