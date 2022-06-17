@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import {Link} from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { useAuth } from '../hooks/useProvideAuth'
 
@@ -23,6 +23,8 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const Auth = useAuth();
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -35,12 +37,11 @@ const ResponsiveAppBar = () => {
     setAnchorElNav(null);
   };
 
-  const Auth = useAuth();
-  
   const handleCloseUserMenu = async (setting) => {
     if (setting == "Logout") {
       await axios.get("api/user/logout")
       Auth.logoutAuth();
+      navigate('/', { replace: true });
     }
     setAnchorElUser(null);
   };
