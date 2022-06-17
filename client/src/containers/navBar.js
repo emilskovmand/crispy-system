@@ -126,17 +126,33 @@ const ResponsiveAppBar = () => {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-                <Link to={`/${page}`}>
-                    <Button
-                    key={page}
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                    {page}
-                </Button>
-                </Link>
-            ))}
+            {pages.map((page) => {
+                if (page != "user") {
+                  return <Link to={`/${page}`}>
+                            <Button
+                            key={page}
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                            {page}
+                          </Button>
+                        </Link>
+                }
+                else if (Auth.Auth.loggedIn == true) {
+                  return <Link to={`/${page}`}>
+                            <Button
+                            key={page}
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                            {page}
+                          </Button>
+                        </Link>
+                } 
+                else {
+                  return <></>
+                }
+            })}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
