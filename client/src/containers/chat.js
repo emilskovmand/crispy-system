@@ -50,6 +50,7 @@ export default function Chat({}) {
                 width='62.5rem'
                 margin={"0px auto"}
                 maxWidth={'92vw'}
+                marginTop={"5px"}
             >
                 <Box
                 padding={"12px"}
