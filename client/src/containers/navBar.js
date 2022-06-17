@@ -13,6 +13,9 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import {Link} from "react-router-dom"
+import axios from "axios"
+import { useAuth } from '../hooks/useProvideAuth'
+
 
 const pages = ['user', 'login', 'chat'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -32,7 +35,13 @@ const ResponsiveAppBar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const Auth = useAuth();
+  
+  const handleCloseUserMenu = async (setting) => {
+    if (setting == "Logout") {
+      await axios.get("api/user/logout")
+      Auth.logoutAuth();
+    }
     setAnchorElUser(null);
   };
 
@@ -151,7 +160,7 @@ const ResponsiveAppBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
