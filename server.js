@@ -24,7 +24,7 @@ require("dotenv/config");
 require('dotenv-flow').config();
 
 const port = process.env.PORT || 3001;
-
+// cookie-session
 app.use(
     session({
         secret: process.env.SECRET,
@@ -58,18 +58,18 @@ app.use((req, res, next) => {
     req.io = io;
     return next();
 })
-
+// Alle metoder under /api/index bliver hentet ind her
 var indexRouter = require("./routes/index");
 app.use("/api/index", indexRouter);
-
+// Alle metoder under /api/index bliver hentet ind her
 var userRouter = require("./routes/user");
 app.use("/api/user", userRouter);
-
+// Alle metoder under /api/index bliver hentet ind her
 var chatRouter = require("./routes/chat");
 app.use("/api/chat", chatRouter)
-
+// Alle metoder under /api/translation bliver hentet ind her
 var translationRouter = require("./routes/translation");
-app.use("/translation", translationRouter);
+app.use("/api/translation", translationRouter);
 
 // Forbind til MongoDB
 mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
